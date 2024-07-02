@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { FormInput } from "../components";
 import { Form, useActionData } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import { useRegister } from "../hooks/useRegister";
 
 export const action = async ({ request }) => {
@@ -49,9 +49,15 @@ function Register() {
               )}{" "}
             </div>
           </Form>
-          <div className="w-full mt-5">
+          <div className="w-full mt-5 mb-5">
             <button className="btn btn-secondary btn-block">Google</button>
           </div>
+          <h2 className="text-center font-medium ">
+            Already have an account?{" "}
+            <Link className="text-blue-700 font-bold	" to="/login">
+              Login
+            </Link>
+          </h2>
         </div>
       </div>
     </div>

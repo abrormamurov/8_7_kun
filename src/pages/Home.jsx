@@ -5,7 +5,7 @@ function Home() {
   const { user } = useSelector((state) => state.user);
   const { data } = useCollection("kitchen", ["uid", "==", user.uid]);
   console.log(data);
-  return <div>Home</div>;
+  return <div className="align-element">Home</div>;
 }
 
 export default Home;

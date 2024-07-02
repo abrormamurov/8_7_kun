@@ -1,6 +1,6 @@
 import React from "react";
 import { FormInput } from "../components";
-import { Form, useActionData } from "react-router-dom";
+import { Form, Link, useActionData } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import { useEffect } from "react";
 
@@ -39,9 +39,15 @@ function Login() {
               )}{" "}
             </div>
           </Form>
-          <div className="w-full mt-5">
+          <div className="w-full mt-5 mb-5">
             <button className="btn btn-secondary btn-block">Google</button>
           </div>
+          <h2 className="text-center font-medium ">
+            Don't have an account?{" "}
+            <Link className="text-blue-700 font-bold	" to="/register">
+              Register
+            </Link>
+          </h2>
         </div>
       </div>
     </div>

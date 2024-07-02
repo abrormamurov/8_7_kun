@@ -12,25 +12,27 @@ const Navbar = () => {
 
   return (
     <nav className="navbar  bg-base-200 ">
-      <div className="navbar-brand align-element">MyApp</div>
-      <div className="navbar-menu">
-        {user ? (
-          <div className="navbar-item gap-10 flex">
-            <img
-              src={user.photoURL}
-              alt="Profile"
-              className="profile-pic"
-              // width={50}
-              // height={50}
-            />
-            <span>{user.email}</span>
-            <button onClick={handleLogout}>Logout</button>
-          </div>
-        ) : (
-          <div className="navbar-item">
-            <span>Login</span>
-          </div>
-        )}
+      <div className="align-element">
+        <div className="navbar-start   ">MyApp</div>
+        <div className="navbar-menu ">
+          {user ? (
+            <div className="navbar-center gap-10 flex ">
+              <img
+                src={user.photoURL}
+                alt="Profile"
+                className="profile-pic"
+                width={80}
+                height={80}
+              />
+              <span className="text-center mt-7">{user.email}</span>
+              <button onClick={handleLogout}>Logout</button>
+            </div>
+          ) : (
+            <div className="navbar-end">
+              <span>Login</span>
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );
