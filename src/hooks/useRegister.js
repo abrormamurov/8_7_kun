@@ -1,4 +1,9 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -33,5 +38,21 @@ export const useRegister = () => {
       setIsPending(false);
     }
   };
-  return { isPending, register };
+
+  const registerWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    setIsPending(true);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      toast.success(`Welcome, ${user.displayName}`);
+      dispatch(login(user));
+      setIsPending(false);
+    } catch (error) {
+      const errorMessage = error.message;
+      toast.error(errorMessage);
+      setIsPending(false);
+    }
+  };
+  return { isPending, registerWithGoogle, register };
 };

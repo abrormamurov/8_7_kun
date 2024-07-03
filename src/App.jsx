@@ -13,20 +13,21 @@ import { Home, Login, Register } from "./pages";
 // layout
 import MainLayout from "./layout/MainLayout";
 // redux
-import { useSelector, useDispatch } from "react-redux";
-import { login, isAuthChange } from "./app/userSlice";
+import { useSelector } from "react-redux";
+// import { login, isAuthChange } from "./app/userSlice";
 // components
 import { ProtectedRoutes } from "./components";
 
 // action
 import { action as LoginAction } from "./pages/Login";
 import { action as RegisterAction } from "./pages/Register";
+import { action as HomeAction } from "./pages/Home";
 // firebase
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase/firebaseConfig";
+// import { onAuthStateChanged } from "firebase/auth";
+// import { auth } from "./firebase/firebaseConfig";
 function App() {
-  const dispatch = useDispatch();
-  const { user, isAuthState } = useSelector((state) => state.user);
+  // const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
 
   const routes = createBrowserRouter([
     {
@@ -40,6 +41,7 @@ function App() {
         {
           index: true,
           element: <Home />,
+          action: HomeAction,
         },
       ],
     },
@@ -55,14 +57,14 @@ function App() {
     },
   ]);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      dispatch(login(user));
-      dispatch(isAuthChange());
-    });
-  }, []);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     dispatch(login(user));
+  //     dispatch(isAuthChange());
+  //   });
+  // }, []);
 
-  return <>{isAuthState && <RouterProvider router={routes} />}</>;
+  return <RouterProvider router={routes} />;
 }
 
 export default App;

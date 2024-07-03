@@ -7,3 +7,6 @@
     @apply max-w-6xl mx-auto pl-3;
   }
 }
+li {
+  list-style: none;
+}
