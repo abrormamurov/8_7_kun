@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import {
   createBrowserRouter,
   Navigate,
@@ -10,31 +12,21 @@ import { Home, Login, Register } from "./pages";
 
 // layout
 import MainLayout from "./layout/MainLayout";
-import { useDispatch, useSelector } from "react-redux";
+// redux
+import { useSelector, useDispatch } from "react-redux";
+import { login, isAuthChange } from "./app/userSlice";
+// components
 import { ProtectedRoutes } from "./components";
-import { setUser } from "./hooks/useEffect";
-
-import { useEffect } from "react";
 
 // action
 import { action as LoginAction } from "./pages/Login";
 import { action as RegisterAction } from "./pages/Register";
+// firebase
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/firebaseConfig";
 function App() {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      dispatch(setUser(JSON.parse(savedUser)));
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-    }
-  }, [user]);
+  const { user, isAuthState } = useSelector((state) => state.user);
 
   const routes = createBrowserRouter([
     {
@@ -63,7 +55,14 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={routes} />;
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      dispatch(login(user));
+      dispatch(isAuthChange());
+    });
+  }, []);
+
+  return <>{isAuthState && <RouterProvider router={routes} />}</>;
 }
 
 export default App;
