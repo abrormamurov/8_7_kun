@@ -22,21 +22,24 @@ const Navbar = () => {
           </div>
           <div className="navbar-menu ml-96">
             {user ? (
-              <div className="navbar-center gap-10 flex ">
-                <img
-                  src={user.photoURL}
-                  alt="Profile"
-                  className="profile-pic"
-                  width={80}
-                  height={80}
-                />
-                <span className="text-center mt-7 ">{user.email}</span>
-                <button
-                  className="btn btn-secondary mt-4"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
+              <div className="flex items-center gap-2">
+                <div className="navbar-center gap-10 flex avatar btn btn-ghost btn-circle ">
+                  <div className="w-20 rounded-full">
+                    <img
+                      src={user.photoURL}
+                      alt="Profile"
+                      className="profile-pic"
+                      width={80}
+                      height={80}
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-10 items-center">
+                  <span className="text-center ">{user.email}</span>
+                  <button className="btn btn-secondary " onClick={handleLogout}>
+                    Logout
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="navbar-end">
