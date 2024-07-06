@@ -46,7 +46,7 @@ function Register() {
         );
       }
     }
-  }, [userData, register]);
+  }, [userData]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">

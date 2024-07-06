@@ -3,16 +3,12 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 // hooks
 import { useCollection } from "../hooks/useCollection";
+import useAddKitchen from "../hooks/useAddKitchen";
 // rrd
 import { Form, useActionData } from "react-router-dom";
 // components
 import { FormInput, KitchenList } from "../components";
 import FormCheckbox from "../components/FormCheckbox";
-
-// firebase
-import { db } from "../firebase/firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
-import toast from "react-hot-toast";
 
 // action
 export const action = async ({ request }) => {
@@ -27,30 +23,15 @@ export const action = async ({ request }) => {
 function Home() {
   const userData = useActionData();
   const { user } = useSelector((state) => state.user);
-  const { data, setData } = useCollection("kitchen", ["uid", "==", user.uid]);
+  const { data } = useCollection(
+    "kitchen",
+    ["uid", "==", user.uid],
+    ["createdAt"]
+  );
+
   const [imageUrl, setImageUrl] = useState("");
 
-  useEffect(() => {
-    if (userData) {
-      const newKitchen = {
-        title: userData.title,
-        image: userData.image,
-        completed: userData.completed === "on" ? true : false,
-        uid: user.uid,
-      };
-
-      addDoc(collection(db, "kitchen"), newKitchen)
-        .then((docRef) => {
-          setData((prevData) => [
-            ...prevData,
-            { id: docRef.id, ...newKitchen },
-          ]);
-          toast.success("New Kitchen Added");
-          setImageUrl("");
-        })
-        .catch((error) => toast.error(error.message));
-    }
-  }, [userData, user]);
+  useAddKitchen(userData, user);
 
   const handleImageChange = (e) => {
     setImageUrl(e.target.value);

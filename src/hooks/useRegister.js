@@ -1,3 +1,4 @@
+// src/hooks/useRegister.js
 import {
   createUserWithEmailAndPassword,
   updateProfile,
@@ -27,14 +28,13 @@ export const useRegister = () => {
         displayName,
         photoURL,
       });
-      console.log(updateProfile);
-      const user = userCredential.user;
-      setIsPending(false);
-      dispatch(login(user));
 
+      const user = userCredential.user;
+      dispatch(login(user));
       toast.success(`Welcome ${user.displayName}!`);
     } catch (error) {
       toast.error(error.message);
+    } finally {
       setIsPending(false);
     }
   };
@@ -45,14 +45,14 @@ export const useRegister = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      toast.success(`Welcome, ${user.displayName}`);
       dispatch(login(user));
-      setIsPending(false);
+      toast.success(`Welcome, ${user.displayName}`);
     } catch (error) {
-      const errorMessage = error.message;
-      toast.error(errorMessage);
+      toast.error(error.message);
+    } finally {
       setIsPending(false);
     }
   };
+
   return { isPending, registerWithGoogle, register };
 };
